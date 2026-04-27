@@ -30,6 +30,14 @@ app.use(cors({
 
 app.use(express.json());
 
+// ── Root route ─────────────────────────────────────────
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "Sahil Palace Backend is running 🚀"
+  });
+});
+
 // ── Health check (Render uses this to confirm service is up) ──
 app.get("/health", (req, res) => {
   res.json({
