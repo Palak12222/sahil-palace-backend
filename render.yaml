@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: sahil-palace-backend
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DB_HOST
+        value: gateway01.ap-southeast-1.prod.alicloud.tidbcloud.com
+      - key: DB_PORT
+        value: "4000"
+      - key: DB_USER
+        value: jjoRrP2xJn3j5dT.root
+      - key: DB_PASSWORD
+        value: ECmgbGFZXHebBnx9
+      - key: DB_NAME
+        value: sahil_palace
+      - key: FRONTEND_URL
+        sync: false   # Set this manually after Vercel deploy
