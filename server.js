@@ -11,9 +11,10 @@ const PORT = process.env.PORT || 3000;
 
 // ── Phase 4: CORS — allow only your Vercel frontend ────
 const allowedOrigins = [
-  process.env.FRONTEND_URL,          // e.g. https://sahil-palace.vercel.app
-  "http://localhost:8080",            // local dev
-  "http://127.0.0.1:5500",           // VS Code Live Server
+  process.env.FRONTEND_URL,                              // from Render env var
+  "https://sahil-palace-frontend-1i8q.vercel.app",       // live Vercel frontend
+  "http://localhost:8080",                               // local dev
+  "http://127.0.0.1:5500",                              // VS Code Live Server
 ].filter(Boolean);
 
 app.use(cors({
