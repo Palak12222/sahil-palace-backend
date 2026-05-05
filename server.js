@@ -5,6 +5,7 @@ const cors     = require("cors");
 const bookingsRoute = require("./routes/bookings");
 const ordersRoute   = require("./routes/orders");
 const contactRoute  = require("./routes/contact");
+const adminRoute    = require("./routes/admin");
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
@@ -24,8 +25,8 @@ app.use(cors({
     if (allowedOrigins.includes(origin)) return callback(null, true);
     callback(new Error(`CORS blocked: ${origin} not allowed`));
   },
-  methods: ["GET", "POST", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  methods: ["GET", "POST", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "x-admin-password"],
   credentials: true,
 }));
 
@@ -53,6 +54,7 @@ app.get("/health", (req, res) => {
 app.use("/api/bookings", bookingsRoute);
 app.use("/api/orders",   ordersRoute);
 app.use("/api/contact",  contactRoute);
+app.use("/api/admin",    adminRoute);
 
 // ── 404 ────────────────────────────────────────────────
 app.use((req, res) => {
