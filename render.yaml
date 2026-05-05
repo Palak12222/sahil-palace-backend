@@ -20,3 +20,5 @@ services:
         value: sahil_palace
       - key: FRONTEND_URL
         value: https://sahil-palace-frontend-1i8q.vercel.app
+      - key: ADMIN_PASSWORD
+        value: sahilpalace2025
