@@ -2,31 +2,28 @@ const express = require("express");
 const router  = express.Router();
 const db      = require("../db");
 
-// Auto-add missing columns if not present
-(async () => {
-  try {
-    await db.execute(`ALTER TABLE orders ADD COLUMN IF NOT EXISTS customer_name VARCHAR(100) DEFAULT ''`);
-    await db.execute(`ALTER TABLE orders ADD COLUMN IF NOT EXISTS address TEXT DEFAULT ''`);
-  } catch(e) { /* columns may already exist */ }
-})();
-
 // POST /api/orders — save a food order
+// customer_name and address are stored inside the items JSON to avoid schema changes
 router.post("/", async (req, res) => {
   try {
     const { items, total, payment_method, phone, customer_name, address } = req.body;
     if (!items || !total) {
       return res.status(400).json({ success: false, message: "Missing required fields" });
     }
+
+    // Pack customer info + items together into one JSON payload
+    const fullPayload = {
+      customer: { name: customer_name || "", phone: phone || "", address: address || "" },
+      items: Array.isArray(items) ? items : []
+    };
+
     const [result] = await db.execute(
-      `INSERT INTO orders (customer_name, phone, address, items, total, payment_method)
-       VALUES (?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO orders (items, total, payment_method, phone) VALUES (?, ?, ?, ?)`,
       [
-        customer_name  || "",
-        phone          || "",
-        address        || "",
-        JSON.stringify(items),
+        JSON.stringify(fullPayload),
         total,
-        payment_method || "cash"
+        payment_method || "cash",
+        phone || ""
       ]
     );
     res.status(201).json({ success: true, message: "Order placed!", orderId: result.insertId });
