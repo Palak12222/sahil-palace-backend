@@ -66,12 +66,23 @@ router.get("/contacts", checkAuth, async (req, res) => {
   }
 });
 
-// PATCH /api/admin/bookings/:id — update status
+// PATCH /api/admin/bookings/:id — update booking status
 router.patch("/bookings/:id", checkAuth, async (req, res) => {
   try {
     const { status } = req.body;
     await db.execute("UPDATE bookings SET status=? WHERE id=?", [status, req.params.id]);
     res.json({ success: true, message: "Status updated" });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// PATCH /api/admin/orders/:id — update order status
+router.patch("/orders/:id", checkAuth, async (req, res) => {
+  try {
+    const { status } = req.body;
+    await db.execute("UPDATE orders SET status=? WHERE id=?", [status, req.params.id]);
+    res.json({ success: true, message: "Order status updated" });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
