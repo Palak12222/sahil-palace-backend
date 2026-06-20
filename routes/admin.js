@@ -109,5 +109,27 @@ router.patch("/reviews/:id", checkAuth, async (req, res) => {
   }
 });
 
+// GET /api/admin/events — get all event enquiries
+router.get("/events", checkAuth, async (req, res) => {
+  try {
+    const [rows] = await db.execute("SELECT * FROM event_enquiries ORDER BY created_at DESC");
+    res.json({ success: true, data: rows });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// PATCH /api/admin/events/:id — mark event enquiry status
+router.patch("/events/:id", checkAuth, async (req, res) => {
+  try {
+    const { status } = req.body;
+    await db.execute("UPDATE event_enquiries SET status=? WHERE id=?", [status, req.params.id]);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 module.exports = router;
+
 
