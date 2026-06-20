@@ -6,6 +6,7 @@ const bookingsRoute = require("./routes/bookings");
 const ordersRoute   = require("./routes/orders");
 const contactRoute  = require("./routes/contact");
 const adminRoute    = require("./routes/admin");
+const reviewsRoute  = require("./routes/reviews");
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
@@ -55,6 +56,7 @@ app.use("/api/bookings", bookingsRoute);
 app.use("/api/orders",   ordersRoute);
 app.use("/api/contact",  contactRoute);
 app.use("/api/admin",    adminRoute);
+app.use("/api/reviews",  reviewsRoute);
 
 // ── 404 ────────────────────────────────────────────────
 app.use((req, res) => {

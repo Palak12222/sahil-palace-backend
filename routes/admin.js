@@ -88,4 +88,26 @@ router.patch("/orders/:id", checkAuth, async (req, res) => {
   }
 });
 
+// GET /api/admin/reviews — get all reviews
+router.get("/reviews", checkAuth, async (req, res) => {
+  try {
+    const [rows] = await db.execute("SELECT * FROM reviews ORDER BY created_at DESC");
+    res.json({ success: true, data: rows });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// PATCH /api/admin/reviews/:id — approve or reject a review
+router.patch("/reviews/:id", checkAuth, async (req, res) => {
+  try {
+    const { status } = req.body;
+    await db.execute("UPDATE reviews SET status=? WHERE id=?", [status, req.params.id]);
+    res.json({ success: true, message: "Review status updated" });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 module.exports = router;
+
