@@ -2,12 +2,14 @@ const express = require("express");
 const router  = express.Router();
 const db      = require("../db");
 
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "sahilpalace2025";
+const ADMIN_EMAIL    = process.env.ADMIN_EMAIL    || "palakarora955@gmail.com";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "SahilHotel@#1718";
 
-// Simple password middleware
+// Simple email + password middleware
 function checkAuth(req, res, next) {
-  const pwd = req.headers["x-admin-password"] || req.query.password;
-  if (pwd !== ADMIN_PASSWORD) {
+  const pwd   = req.headers["x-admin-password"] || req.query.password;
+  const email = req.headers["x-admin-email"]    || req.query.email;
+  if (email !== ADMIN_EMAIL || pwd !== ADMIN_PASSWORD) {
     return res.status(401).json({ success: false, message: "Unauthorized" });
   }
   next();

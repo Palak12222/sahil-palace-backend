@@ -26,7 +26,7 @@ app.use(cors({
     callback(new Error(`CORS blocked: ${origin} not allowed`));
   },
   methods: ["GET", "POST", "PATCH", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization", "x-admin-password"],
+  allowedHeaders: ["Content-Type", "Authorization", "x-admin-password", "x-admin-email"],
   credentials: true,
 }));
 
