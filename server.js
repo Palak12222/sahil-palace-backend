@@ -7,6 +7,7 @@ const ordersRoute   = require("./routes/orders");
 const contactRoute  = require("./routes/contact");
 const adminRoute    = require("./routes/admin");
 const reviewsRoute  = require("./routes/reviews");
+const eventsRoute   = require("./routes/events");
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
@@ -57,6 +58,7 @@ app.use("/api/orders",   ordersRoute);
 app.use("/api/contact",  contactRoute);
 app.use("/api/admin",    adminRoute);
 app.use("/api/reviews",  reviewsRoute);
+app.use("/api/events",   eventsRoute);
 
 // ── 404 ────────────────────────────────────────────────
 app.use((req, res) => {
