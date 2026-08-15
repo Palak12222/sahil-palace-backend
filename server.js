@@ -67,5 +67,5 @@ app.use((err, req, res, next) => {
 // ── Start server ────────────────────────────────────────
 app.listen(PORT, () => {
   console.log(`🚀 Sahil Palace API running on port ${PORT}`);
-  console.log(`   Allowed origins: ${allowedOrigins.join(", ")}`);
+  console.log(`   CORS enabled for custom domain & all frontends`);
 });
