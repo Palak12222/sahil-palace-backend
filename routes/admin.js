@@ -7,9 +7,9 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "SahilHotel@#1718";
 
 // Simple email + password middleware
 function checkAuth(req, res, next) {
-  const pwd   = req.headers["x-admin-password"] || req.query.password;
-  const email = req.headers["x-admin-email"]    || req.query.email;
-  if (email !== ADMIN_EMAIL || pwd !== ADMIN_PASSWORD) {
+  const pwd   = String(req.headers["x-admin-password"] || req.query.password || "").trim();
+  const email = String(req.headers["x-admin-email"]    || req.query.email || "").trim().toLowerCase();
+  if (email !== ADMIN_EMAIL.toLowerCase() || pwd !== ADMIN_PASSWORD) {
     return res.status(401).json({ success: false, message: "Unauthorized" });
   }
   next();
