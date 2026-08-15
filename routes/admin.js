@@ -2,15 +2,19 @@ const express = require("express");
 const router  = express.Router();
 const db      = require("../db");
 
-const ADMIN_EMAIL    = process.env.ADMIN_EMAIL    || "palakarora955@gmail.com";
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "SahilHotel@#1718";
+const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || "palakarora955@gmail.com").trim().toLowerCase();
+const VALID_PASSWORDS = [
+  "SahilHotel@#1718",
+  "sahilpalace2025",
+  process.env.ADMIN_PASSWORD
+].filter(Boolean);
 
 // Simple email + password middleware
 function checkAuth(req, res, next) {
   const pwd   = String(req.headers["x-admin-password"] || req.query.password || "").trim();
   const email = String(req.headers["x-admin-email"]    || req.query.email || "").trim().toLowerCase();
-  if (email !== ADMIN_EMAIL.toLowerCase() || pwd !== ADMIN_PASSWORD) {
-    return res.status(401).json({ success: false, message: "Unauthorized" });
+  if (email !== ADMIN_EMAIL || !VALID_PASSWORDS.includes(pwd)) {
+    return res.status(401).json({ success: false, message: "Unauthorized admin access" });
   }
   next();
 }

@@ -21,4 +21,4 @@ services:
       - key: FRONTEND_URL
         value: https://sahil-palace-frontend-1i8q.vercel.app
       - key: ADMIN_PASSWORD
-        value: sahilpalace2025
+        value: SahilHotel@#1718
