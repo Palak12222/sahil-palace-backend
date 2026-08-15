@@ -7,8 +7,8 @@ const db      = require("../db");
 router.post("/", async (req, res) => {
   try {
     const { items, total, payment_method, phone, customer_name, address } = req.body;
-    if (!items || !total) {
-      return res.status(400).json({ success: false, message: "Missing required fields" });
+    if (!items || total === undefined || total === null) {
+      return res.status(400).json({ success: false, message: "Missing required fields (items or total)" });
     }
 
     // Pack customer info + items together into one JSON payload

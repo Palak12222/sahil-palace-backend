@@ -12,22 +12,13 @@ const eventsRoute   = require("./routes/events");
 const app  = express();
 const PORT = process.env.PORT || 3000;
 
-// ── Phase 4: CORS — allow only your Vercel frontend ────
-const allowedOrigins = [
-  process.env.FRONTEND_URL,                              // from Render env var
-  "https://sahil-palace-frontend-1i8q.vercel.app",       // live Vercel frontend
-  "http://localhost:8080",                               // local dev
-  "http://127.0.0.1:5500",                              // VS Code Live Server
-].filter(Boolean);
-
+// ── Phase 4: CORS — allow custom domain & all frontends ────
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests with no origin (Postman, curl, mobile apps)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) return callback(null, true);
-    callback(new Error(`CORS blocked: ${origin} not allowed`));
+    // Dynamically allow any origin (reflects incoming Origin header in Access-Control-Allow-Origin)
+    return callback(null, true);
   },
-  methods: ["GET", "POST", "PATCH", "OPTIONS"],
+  methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "x-admin-password", "x-admin-email"],
   credentials: true,
 }));
